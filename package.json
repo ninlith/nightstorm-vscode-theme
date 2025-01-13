@@ -1,0 +1,21 @@
+{
+  "name": "nightstorm",
+  "displayName": "Nightstorm",
+  "description": "A theme based on JetBrain's New UI.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Nightstorm",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Nightstorm-color-theme.json"
+      }
+    ]
+  }
+}
