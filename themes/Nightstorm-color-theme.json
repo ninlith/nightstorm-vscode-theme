@@ -1,6 +1,6 @@
 {
-	"name": "Nightstorm",
 	"$schema": "vscode://schemas/color-theme",
+	"name": "Nightstorm",
 	"type": "dark",
 	"colors": {
 		"activityBar.activeBackground": "#4f5156",
@@ -843,68 +843,17 @@
 	"tokenColors": [  // TextMate rules
         {  // MARK: white
 			"scope": [
-                // variables
-                "variable",
-                "entity.name.variable",
-				"variable.interpolation",
-				"string variable",
-                "variable.scss",
-				"variable.other.jsdoc",
-				"variable.parameter.graphql",
-                "support.variable.magic",
-				"meta.property-list variable.css",
+                "variable",  // variables
+                "constant",  // constants
+                "punctuation", // - punctuation
+                "keyword.operator",  // =, +, etc.
+				"storage.type.function.arrow",  // JS arrow functions
 
-                // constants
-				"constant.language.import-export-all",
-				"constant.character.escape.php",
-				"constant.character.enum.graphql",
-				"source.yaml constant.language.boolean",
-
-                // punctuation
-				"punctuation.accessor",
-				"punctuation.definition.entity",
-				"punctuation.separator.key-value",
-				"punctuation.separator.list.comma.css",
-				"punctuation.definition.group.regexp",
-				"punctuation.definition.group.assertion.regexp",
-				"punctuation.definition.character-class.regexp",
-				"punctuation.definition.template-expression",
-				"punctuation.definition.attribute-selector",
-				"punctuation.terminator",
-				"punctuation.definition.typeparameters",
-				"punctuation.operation.graphql",
-				"punctuation.colon.graphql",
-				"punctuation.assignment.graphql",
-
-                "meta.embedded",
-				"meta.tag.attributes",
-				"meta.at-rule.for keyword.control.operator",
-				"entity.name.type",
-				"entity.name.function.tagged-template",
-				"source.yaml string.unquoted",
-				"keyword.operator",
-				"keyword.other.unit.percentage",
-				"keyword.other.back-reference.regexp",
-				"storage.type.function.arrow",
-				"meta.brace.square",
-				"keyword.control.at-rule.mixin.scss",
-				"entity.other.attribute-name",
-				"entity.name.type.instance.jsdoc",
-				"keyword.other.type",
-                "entity.name.function.support.go",
-				"entity.name.type.go",
-				"punctuation.other.comma.go",
-				"meta.arguments.graphql",
-				"meta.arguments.graphql",
-				"support.type.graphql",
-				"meta.brace.round.graphql",
-				"string.unquoted.alias.graphql",
-				"support.type.builtin.graphql",
-
-                // invocations etc.
+                // invocations
                 "meta.function-call.generic",
                 "meta.function-call entity.name.function",
                 "meta.function-call support.type",
+                "meta.function-call support.function.magic",  // magic function calls
                 "meta.method-call entity.name.function",
                 "entity.name.function.call",
                 "entity.name.function.member",
@@ -916,32 +865,13 @@
 				"foreground": "#BCBEC4"
 			}
 		},
-        {
-			"scope": [
-                // variables and constants
-				"variable.other.constant",
-				"meta.definition variable.other.constant",
-				"variable.other.object",
-				"variable.other.object.js",
-				"variable.other.php",
-				"constant.other.php"
-			],
-			"settings": {
-				"foreground": "#BCBEC3",
-				"fontStyle": ""
-			}
-		},
         {  // MARK: gray
 			"scope": [
                 // comments
 				"comment",
-                "punctuation.definition.comment",
-                "comment.block.documentation",
-				"comment.block.documentation storage.type",
-				"keyword.other.phpdoc",
-				"source.css.scss comment",
+                "punctuation.definition.comment",  // JSDoc, PHPDoc /**
 
-                // optional semicolons
+                // JS/TS (optional) semicolons
                 "punctuation.terminator.statement.js",
                 "punctuation.terminator.statement.ts"
 			],
@@ -953,17 +883,17 @@
 			"scope": [
                 "token.warn-token",
 				"keyword",
-				"keyword.operator.logical.python",  // and, or, not
-				"keyword.operator.new",
-				"keyword.operator.expression",
-                "keyword - keyword.operator",
-                "keyword.control",
-                "storage",
-				"storage.type",
-				"constant.character.escape",  // /n in strings
-				"constant.language",
-				"variable.key.dotenv",
-				"entity.name.tag.yaml",
+				"keyword.operator.logical.python",  // Python and, or, not
+                "storage",  // def, function, ...
+                "punctuation.definition.directive",  // C/C++ hashmarks in #define, #include
+                "punctuation.section.embedded.begin.php",  // <?php
+                "punctuation.section.embedded.end.php",  // ?>
+                "meta.fstring.python constant.character.format.placeholder.other.python", // f-strings braces
+				"constant.character.escape",  // /n, \", ... in strings
+                "constant.language",  // True, None, false, PHP magic constants...
+                "punctuation.definition.keyword.scss",  // SCSS: @ in @include
+
+                // markdown
 				"punctuation.definition.markdown",
 				"punctuation.definition.raw.markdown",
 				"punctuation.definition.bold.markdown",
@@ -971,15 +901,6 @@
 				"punctuation.definition.list.begin.markdown",
 				"punctuation.definition.heading.markdown",
 				"punctuation.definition.quote.begin.markdown",
-                "punctuation.section.embedded.begin.php",  // <?php
-                "punctuation.section.embedded.end.php",  // ?>
-				"storage.type.error.go",
-				"constant.language.null.go",
-				"entity.name.function.support.builtin.go",
-				"storage.type.string.go",
-				"storage.type.boolean.go",
-				"constant.language.boolean.go",
-                "meta.fstring.python constant.character.format.placeholder.other.python", // f-strings braces
 			],
 			"settings": {
 				"foreground": "#CF8E6D",
@@ -988,24 +909,25 @@
 		},
 		{  // MARK: yellow
 			"scope": [
+                // unrecognized HTML derivative tags
                 "meta.tag.other.unrecognized.html.derivative punctuation.definition.tag",
                 "meta.tag.other.unrecognized.html.derivative entity.name.tag",
+
+                // JSDoc, PHPDoc tags (@param...)
+                "comment.block.documentation storage.type",
+                "keyword.other.phpdoc",
+                "punctuation.definition.block.tag.jsdoc",
             ],
 			"settings": {
 				"foreground": "#B3AE60",
-			}
-		},
-		{
-			"scope": [
-            ],
-			"settings": {
-				"foreground": "#B3AE60",
-				"fontStyle": "bold",
 			}
 		},
         {  // MARK: green
 			"scope": [
+                // strings
 				"string",
+                "punctuation.definition.string",
+
  				"punctuation.definition.metadata.markdown",
 				"markup.inline.raw",
 				"markup.quote",
@@ -1023,6 +945,8 @@
 		},
 		{  // MARK: greenish cyan
 			"scope": [
+                "support.variable.magic",  // magic variables
+
                 // numbers
                 "constant.numeric",
                 "constant.other.color.rgb-value.hex.css",
@@ -1034,19 +958,11 @@
 		},
         {  // MARK: cyan
 			"scope": [
-				"entity.name.tag",
-                "entity.other.attribute-name.id",
-				"entity.other.attribute-name.id punctuation.definition.entity",
-				"entity.other.attribute-name.class",
-				"entity.other.attribute-name.pseudo-class",
-				"entity.other.attribute-name.pseudo-element",
-				"entity.other.attribute-name.scss",
-				"entity.other.attribute-name.css",
-				"entity.other.attribute-name.attribute.scss",
-				"entity.other.attribute-name.parent-selector-suffix punctuation.definition.entity",
-				"entity.other.attribute-name.placeholder.css",
-				"entity.other.attribute-name.placeholder.css punctuation.definition.entity",
-				"meta.attribute-selector string.unquoted.attribute-value",
+				"entity.name.tag",  // HTML tags, CSS tag selectors
+                "source.css entity.other.attribute-name",  // CSS attribute selectors
+                "entity.other.attribute-name.id punctuation.definition.entity", // CSS id selector hashmark
+
+                "meta.attribute-selector string.unquoted.attribute-value",
 				"variable.parameter.misc.css",
 				"variable.parameter.keyframe-list.css",
 				"entity.other.keyframe-offset",
@@ -1071,20 +987,18 @@
 				"string.regexp punctuation.definition.string",
 				"string.regexp keyword.other",
 				"support.class.component",
-				"entity.name.tag.template.html.vue",
-				"entity.name.tag.script.html.vue",
-				"entity.name.tag.style.html.vue",
-				"source.vue meta.tag.other.unrecognized.html.derivative entity.name.tag",
-				"source.vue meta.tag.custom.start.html entity.name.tag",
-				"source.vue meta.tag.custom.end.html entity.name.tag",
 
                 // decorators
                 "entity.name.function.decorator",
                 "meta.function.decorator support.type",
+                "punctuation.definition.decorator",
 
                 // type hints etc.
                 "support.type",
                 "storage.type.php",
+                "source.go storage.type",
+                "entity.name.type.instance.jsdoc",  // JSDoc types
+                "meta.other.type.phpdoc.php",  // PHPDoc types
             ],
 			"settings": {
 				"foreground": "#2AACB8",
@@ -1097,7 +1011,7 @@
                 "entity.name.class",
                 "entity.name.function",
                 "entity.name.type.class",
-                "support.function.magic",
+                "support.function.magic",  // magic functions
                 "function.deprecated",
                 "string.other.link.description.title.markdown",
 				"variable.fragment.graphql",
@@ -1132,15 +1046,19 @@
 		},
 		{  // MARK: purply blue
 			"scope": [
+                "source.css support.constant",  // CSS none, solid...
+
+                // special language variables (self, cls, this, etc.)
 				"variable.language.special.self",
 				"variable.parameter.function.language.special.self",
 				"variable.language.special.cls",
 				"variable.parameter.function.language.special.cls",
 				"variable.language.this",
-				"variable.language.this.js",
-				"variable.language.this.php",
-                "variable.language.self.ruby",
-				"source.css support.constant",
+                "variable.language.self",
+                // "variable.language.super",
+                // "variable.language.special",
+                "variable.language.cls",
+                "variable.language.this punctuation",  // $ in $this
 			],
 			"settings": {
 				"foreground": "#9995D9"
@@ -1148,6 +1066,9 @@
 		},
         {  // MARK: magenta
 			"scope": [
+				"meta.attribute",  // attributes
+                "entity.name.tag.yaml",  // YAML keys
+
                 "token.debug-token",
 				"entity.name.type.module",
 				"entity.name.constant",
@@ -1158,17 +1079,12 @@
 				"meta.object-literal.key",
 				"meta.definition.property",
 				"meta.definition.property entity.name.function",
-				"support.type.property-name.json",
 				"support.type.property-name",
 				"support.type.vendored.property-name",
 				"support.variable.property",
 				"support.type.object.module",
 				"fenced_code",
-				"variable.other.property.go",
 				"source.graphql",
-				"constant.character.enum.graphql",
-				"meta.attribute",
-				"variable.other.property.js"
 			],
 			"settings": {
 				"foreground": "#C77DBB",
@@ -1226,14 +1142,6 @@
 				"fontStyle": "strikethrough"
 			}
 		},
-		{
-			"scope": [
-				"variable.fragment.graphql"
-			],
-			"settings": {
-				"fontStyle": ""
-			}
-		},
 	],
     "semanticHighlighting": true,
     "semanticTokenColors": {  // MARK: Semantic highlighting
@@ -1262,8 +1170,7 @@
             "fontStyle": "",
         },
         "variable.defaultLibrary": {
-            "foreground": "#C77DBB",
-            "fontStyle": "italic"
+            "foreground": "#9995D9",
         },
         "variable.local": {
             "foreground": "#BCBEC3",
