@@ -845,31 +845,28 @@
             "scope": [
                 "variable",  // variables
                 "constant",  // constants
-                "punctuation", // - punctuation
+                "punctuation", // punctuation
                 "keyword.operator",  // =, +, etc.
                 "storage.type.function.arrow",  // JS arrow functions
 
                 // invocations
                 "meta.function-call.generic",
                 "meta.function-call entity.name.function",
-                "meta.function-call support.type",
                 "meta.function-call support.function.magic",  // magic function calls
                 "meta.method-call entity.name.function",
                 "entity.name.function.call",
                 "entity.name.function.member",
                 "support.function",
-                "support.function.construct.php",
-                "support.function.construct.output.php",
             ],
             "settings": {
-                "foreground": "#BCBEC4"
+                "foreground": "#BCBEC3"
             }
         },
         {  // MARK: gray
             "scope": [
                 // comments
                 "comment",
-                "punctuation.definition.comment",  // JSDoc, PHPDoc /**
+                "punctuation.definition.comment",  // /**, /*, //
 
                 // JS/TS (optional) semicolons
                 "punctuation.terminator.statement.js",
@@ -881,7 +878,6 @@
         },
         {  // MARK: orange
             "scope": [
-                "token.warn-token",
                 "keyword",
                 "keyword.operator.logical.python",  // Python and, or, not
                 "storage",  // def, function, ...
@@ -889,9 +885,12 @@
                 "punctuation.section.embedded.begin.php",  // <?php
                 "punctuation.section.embedded.end.php",  // ?>
                 "meta.fstring.python constant.character.format.placeholder.other.python", // f-strings braces
-                "constant.character.escape",  // /n, \", ... in strings
                 "constant.language",  // True, None, false, PHP magic constants...
+                "constant.character.escape",  // /n, \", \\, ... (in strings)
+                "support.other.escape.special.regexp", // regex \d (Python)
+                "constant.other.character-class.regexp",  // regex \d (JS)
                 "punctuation.definition.keyword.scss",  // SCSS: @ in @include
+                "punctuation.definition.keyword.css",  // CSS: @ in @media etc.
 
                 // markdown
                 "punctuation.definition.markdown",
@@ -909,9 +908,15 @@
         },
         {  // MARK: yellow
             "scope": [
+                "token.warn-token",
+
                 // unrecognized HTML derivative tags
                 "meta.tag.other.unrecognized.html.derivative punctuation.definition.tag",
                 "meta.tag.other.unrecognized.html.derivative entity.name.tag",
+
+                // Java/Lua annotations (@Test, @deprecated...)
+                "storage.type.annotation",
+                "punctuation.definition.annotation",
 
                 // JSDoc, PHPDoc tags (@param...)
                 "comment.block.documentation storage.type",
@@ -924,20 +929,15 @@
         },
         {  // MARK: green
             "scope": [
-                // strings
-                "string",
-                "punctuation.definition.string",
+                "string",  // strings
+                "punctuation.definition.string",  // "
+                "markup.inline.raw",  // Markup inline code
+                "markup.quote",  // Markup quotes
 
-                 "punctuation.definition.metadata.markdown",
-                "markup.inline.raw",
-                "markup.quote",
-                "punctuation.separator.key-value.html",
-                "constant.other.character-class.set.regexp",
-                "constant.other.character-class.range.regexp",
-                "meta.at-rule.each keyword.control.operator",
-                "meta.attribute-selector",
-                "meta.embedded.assembly",
-                "meta.tag.attributes keyword.operator.assignment",
+                // regex character sets
+                "constant.character.set.regexp",  // Python
+                "constant.other.character-class.set.regexp",  // JS [@#$%^&]
+                "constant.other.character-class.range.regexp",  // JS [a-z]
             ],
             "settings": {
                 "foreground": "#6AAB73"
@@ -946,11 +946,22 @@
         {  // MARK: greenish cyan
             "scope": [
                 "support.variable.magic",  // magic variables
+                "variable.other.global.php",  // PHP superglobals: $_GET, $_SESSION, $_REQUEST, ...
+                "variable.other.global.php punctuation",  // $
 
-                // numbers
-                "constant.numeric",
-                "constant.other.color.rgb-value.hex.css",
-                "keyword.other.unit",
+                // decorators
+                "entity.name.function.decorator",
+                "meta.function.decorator support.type",
+                "punctuation.definition.decorator",  // @
+                "punctuation.decorator",  // TS @
+                "meta.decorator",
+                "meta.decorator meta.function-call entity.name.function",
+
+                // numbers etc.
+                "constant.numeric",  // numbers
+                "punctuation.definition.constant.css",  // hex color hashmark
+                "constant.other.color.rgb-value.hex.css",  // hex color value
+                "keyword.other.unit",  // px, em, etc.
             ],
             "settings": {
                 "foreground": "#2FBAA3"
@@ -959,46 +970,26 @@
         {  // MARK: cyan
             "scope": [
                 "entity.name.tag",  // HTML tags, CSS tag selectors
+                "punctuation.definition.tag",  // <, >
                 "source.css entity.other.attribute-name",  // CSS attribute selectors
+                "meta.property-name.css",  // some CSS selectors
                 "entity.other.attribute-name.id punctuation.definition.entity", // CSS id selector hashmark
+                "meta.attribute.php",  // PHP attributes #[Attribute]
 
-                "meta.attribute-selector string.unquoted.attribute-value",
-                "variable.parameter.misc.css",
-                "variable.parameter.keyframe-list.css",
-                "entity.other.keyframe-offset",
-                "punctuation.definition.tag",
-                "storage.type.annotation",
-                "punctuation.definition.annotation",
-                "meta.at-rule.media keyword.operator",
-                "meta.at-rule.media keyword.control.operator",
-                "meta.property-value variable.argument.css",
-                "constant.other.scss",
-                "support.constant.parity.css",
-                "source.css entity.name.function",
-                "source.css support.type.map.key",
-                "source.css support.constant.language-range",
-                "source.css support.function",
-                "punctuation.decorator",
-                "meta.decorator entity.name.function",
-                "constant.other.character-class.regexp",
-                "meta.attribute.php",
-                "keyword.operator.nulltype.graphql",
-                "keyword.operator.quantifier.regexp",
-                "string.regexp punctuation.definition.string",
-                "string.regexp keyword.other",
-                "support.class.component",
-
-                // decorators
-                "entity.name.function.decorator",
-                "meta.function.decorator support.type",
-                "punctuation.definition.decorator",
+                // regex groups
+                "string.regexp punctuation.parenthesis",  // regex (, ) (Python)
+                "punctuation.definition.group.regexp",  // regex (, ) (JS)
+                "entity.name.tag.backreference.regexp",  // regex backreferences (Python)
+                "keyword.other.back-reference.regexp",  // regex backreferences (JS)
 
                 // type hints etc.
-                "support.type",
-                "storage.type.php",
-                "source.go storage.type",
-                "entity.name.type.instance.jsdoc",  // JSDoc types
-                "meta.other.type.phpdoc.php",  // PHPDoc types
+                "support.type",  // type hints, Python str(), int(), super()
+                "storage.type.php",  // PHP (float), (int)
+                "keyword.other.type",  // PHP float, string, void
+                "source.go storage.type",  // Go builtin types
+                "entity.name.type",  // Go types, JSDoc types
+                "storage.type.built-in",  // C/C++ double, int, void
+                "source.cs keyword.type",  // C# int, void... but not literal Type keyword in other languages
             ],
             "settings": {
                 "foreground": "#2AACB8",
@@ -1008,14 +999,12 @@
         {  // MARK: blue
             "scope": [
                 "token.info-token",
+
+                // function/method/class declarations/names
                 "entity.name.class",
                 "entity.name.function",
                 "entity.name.type.class",
                 "support.function.magic",  // magic functions
-                "function.deprecated",
-                "string.other.link.description.title.markdown",
-                "variable.fragment.graphql",
-                "entity.name.fragment.graphql",
 
                 // inheritance
                 "entity.other.inherited-class",
@@ -1028,16 +1017,10 @@
         },
         {
             "scope": [
+                // links
                 "string.other.link",
-                "constant.other.reference.link",
-                "punctuation.definition.link.title.begin.markdown",
-                "punctuation.definition.link.title.end.markdown",
-                "punctuation.definition.link.description.begin.markdown",
-                "punctuation.definition.link.description.end.markdown",
+                "string.other.link.description.title.markdown punctuation.definition.string ",  // "
                 "markup.underline.link",
-                "variable.parameter.url.css",
-                "meta.property-value variable.parameter.url",
-                "meta.at-rule.namespace variable.parameter.url"
             ],
             "settings": {
                 "foreground": "#56A8F5",
@@ -1055,8 +1038,6 @@
                 "variable.parameter.function.language.special.cls",
                 "variable.language.this",
                 "variable.language.self",
-                // "variable.language.super",
-                // "variable.language.special",
                 "variable.language.cls",
                 "variable.language.this punctuation",  // $ in $this
             ],
@@ -1066,25 +1047,18 @@
         },
         {  // MARK: magenta
             "scope": [
+                "token.debug-token",
                 "meta.attribute",  // attributes
                 "entity.name.tag.yaml",  // YAML keys
+                "fenced_code",  // ```python
+                "entity.name.type.module",  // Ruby modules
 
-                "token.debug-token",
-                "entity.name.type.module",
-                "entity.name.constant",
+                // properties
                 "variable.other.property",
                 "variable.other.object.property",
-                "variable.other.constant.property",
-                "variable.other.enummember",
-                "meta.object-literal.key",
-                "meta.definition.property",
-                "meta.definition.property entity.name.function",
                 "support.type.property-name",
-                "support.type.vendored.property-name",
-                "support.variable.property",
-                "support.type.object.module",
-                "fenced_code",
-                "source.graphql",
+                "support.type.vendored.property-name",  // -webkit-border-radius, -moz-border-radius
+                "support.variable.property",  // JS .length
             ],
             "settings": {
                 "foreground": "#C77DBB",
@@ -1102,11 +1076,9 @@
         },
         {  // MARK: red
             "scope": [
-                "keyword.codetag.notation",  // codetags
-
                 "token.error-token",
-                "invalid",
-                "invalid.deprecated",
+                "keyword.codetag.notation",  // codetags
+                "invalid",  // <blink>
             ],
             "settings": {
                 "foreground": "#F75464",
@@ -1153,28 +1125,21 @@
         },
         "selfParameter": {
             "foreground": "#9995D9",
-            "fontStyle": "",
         },
         "selfParameter.declaration": {
-            "foreground": "#9995D9",
             "fontStyle": "italic",
         },
         "parameter": {
             "foreground": "#BCBEC3",
-            "fontStyle": "",
         },
         "parameter.declaration": {
             "fontStyle": "italic",
         },
         "variable": {
-            "fontStyle": "",
-        },
-        "variable.defaultLibrary": {
-            "foreground": "#9995D9",
-        },
-        "variable.local": {
             "foreground": "#BCBEC3",
-            "fontStyle": ""
+        },
+        "variable.defaultLibrary": {  // JS document, console
+            "foreground": "#9995D9",
         },
         "function": {
             "foreground": "#BCBEC3",
@@ -1223,16 +1188,12 @@
         },
         "type": {
             "foreground": "#2AACB8",
-            "fontStyle": ""
         },
         "interface": {
-            "foreground": "#BCBEC3"
+            "foreground": "#2AACB8"
         },
         "enum": {
-            "foreground": "#BCBEC3"
-        },
-        "enumMember": {
-            "fontStyle": "italic"
+            "foreground": "#2AACB8"
         },
     },
 }
