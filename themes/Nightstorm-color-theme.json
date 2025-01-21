@@ -975,6 +975,8 @@
                 "meta.property-name.css",  // some CSS selectors
                 "entity.other.attribute-name.id punctuation.definition.entity", // CSS id selector hashmark
                 "meta.attribute.php",  // PHP attributes #[Attribute]
+                "support.type.property-name.table.toml",  // TOML section names
+                "punctuation.definition.table.toml",  // TOML [, ] around section names
 
                 // regex groups
                 "string.regexp punctuation.parenthesis",  // regex (, ) (Python)
@@ -1052,6 +1054,7 @@
                 "entity.name.tag.yaml",  // YAML keys
                 "fenced_code",  // ```python
                 "entity.name.type.module",  // Ruby modules
+                "support.type.property-name.toml",  // TOML keys
 
                 // properties
                 "variable.other.property",
@@ -1137,6 +1140,9 @@
         },
         "variable": {
             "foreground": "#BCBEC3",
+        },
+        "variable:toml": {
+            "foreground": "#C77DBB",
         },
         "variable.defaultLibrary": {  // JS document, console
             "foreground": "#9995D9",
