@@ -1,7 +1,7 @@
 {
   "name": "nightstorm",
   "displayName": "Nightstorm",
-  "description": "A theme based on JetBrain's New UI.",
+  "description": "A theme utilizing the Oklab color space.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
@@ -12,9 +12,29 @@
   "contributes": {
     "themes": [
       {
-        "label": "Nightstorm",
+        "label": "Nightstorm Orange",
         "uiTheme": "vs-dark",
-        "path": "./themes/Nightstorm-color-theme.json"
+        "path": "./themes/Nightstorm-orange.json"
+      },
+      {
+        "label": "Nightstorm Turquoise",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Nightstorm-turquoise.json"
+      },
+      {
+        "label": "Nightstorm Cyan",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Nightstorm-cyan.json"
+      },
+      {
+        "label": "Nightstorm Blue",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Nightstorm-blue.json"
+      },
+      {
+        "label": "Nightstorm Magenta",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Nightstorm-magenta.json"
       }
     ]
   }

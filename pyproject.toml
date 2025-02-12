@@ -1,0 +1,31 @@
+[project]
+name = "nightstorm"
+version = "0.0.1"
+description = "A theme utilizing the Oklab color space."
+authors = [
+    {name = "Okko Hartikainen", email = "okko.hartikainen@yandex.com"},
+]
+dependencies = []
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+plot = [
+    "matplotlib>=3.10.0",
+]
+
+[tool.pdm]
+distribution = true
+
+[dependency-groups]
+dev = [
+    "pylint>=3.3.4",
+    "pytest>=8.3.4",
+]
+
+[tool.pdm.scripts]
+generate = "python -m nightstorm.generate"
+plot = "python -m nightstorm.plot"
+lint = "pylint src/ tests/"
+test = "pytest"
