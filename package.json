@@ -12,6 +12,11 @@
   "contributes": {
     "themes": [
       {
+        "label": "Nightstorm Blue",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Nightstorm-blue.json"
+      },
+      {
         "label": "Nightstorm Orange",
         "uiTheme": "vs-dark",
         "path": "./themes/Nightstorm-orange.json"
@@ -25,11 +30,6 @@
         "label": "Nightstorm Cyan",
         "uiTheme": "vs-dark",
         "path": "./themes/Nightstorm-cyan.json"
-      },
-      {
-        "label": "Nightstorm Blue",
-        "uiTheme": "vs-dark",
-        "path": "./themes/Nightstorm-blue.json"
       },
       {
         "label": "Nightstorm Magenta",
