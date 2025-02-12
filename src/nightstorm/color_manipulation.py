@@ -119,3 +119,96 @@ def oklab_adjust(base_color, lightness_factor=1, chroma_factor=1, hue_addend=0):
     b = clamp(b)
 
     return rgba_to_hex(list(map(srgb_nonlinear_transform, [r, g, b])))
+
+
+def interpolate(c1, c2, t, gamma=1):
+    """Interpolate color coordinates (with gamma correction)."""
+    if isinstance(c1, (int, float)):
+        return interpolate([c1], [c2], t, gamma)[0]
+    return [((1 - t)*v1**gamma + t*v2**gamma)**(1/gamma)
+            for v1, v2 in zip(c1, c2)]
+
+
+def mix(color1, color2, t, mode="oklab", alpha_mode="mix"):
+    """Mix colors in a perceptual color space or otherwise."""
+    # https://stackoverflow.com/a/62238561
+
+    *rgb1, a1 = color1
+    *rgb2, a2 = color2
+
+    if alpha_mode == "mix":
+        a = interpolate(a1, a2, t)
+    elif alpha_mode == "blend":
+        alpha_a = a1*(1-t)
+        a = 1 - (1 - alpha_a) * (1 - a2)
+        t = a2*(1 - alpha_a)/a
+
+    if mode.startswith("srgb"):
+        gamma = (mode + " 1").split()[1]
+        rgb = interpolate(rgb1, rgb2, t, gamma=float(gamma))
+    elif mode == "linear rgb":
+        rgb1 = map(srgb_nonlinear_transform_inverse, rgb1)
+        rgb2 = map(srgb_nonlinear_transform_inverse, rgb2)
+        rgb = interpolate(rgb1, rgb2, t)
+        rgb = list(map(srgb_nonlinear_transform, rgb))
+    elif mode == "oklab":
+        rgb1 = map(srgb_nonlinear_transform_inverse, rgb1)
+        rgb2 = map(srgb_nonlinear_transform_inverse, rgb2)
+        rgb1 = linear_rgb_to_oklab(*rgb1)
+        rgb2 = linear_rgb_to_oklab(*rgb2)
+        rgb = interpolate(rgb1, rgb2, t)
+        rgb = oklab_to_linear_rgb(*rgb)
+        rgb = list(map(srgb_nonlinear_transform, rgb))
+    else:
+        raise ValueError("Invalid mode.")
+
+    return rgb + [a]
+
+
+def opacify(color, background="#FFFFFF"):
+    """Remove transparency."""
+    return rgba_to_hex(mix(hex_to_rgba(color),
+                           hex_to_rgba(background),
+                           t=0,
+                           mode="srgb",
+                           alpha_mode="blend"))[:7]
+
+
+def deopacify(color: str, background: str, target: str, alpha_tol: float = 0.02) -> str:
+    """
+    Calculate the alpha value for `color` such that blending it with `background`
+    results in `target`. Returns the color with the calculated alpha.
+
+    Raises:
+        ValueError: If the target color cannot be achieved with the given color and background.
+    """
+    # By DeepSeek (深度求索).
+
+    # Convert hex colors to RGB tuples
+    color_rgb = hex_to_rgba(color)[:3]
+    background_rgb = hex_to_rgba(background)[:3]
+    target_rgb = hex_to_rgba(target)[:3]
+
+    # If color and background are the same, target must also match
+    if color_rgb == background_rgb != target_rgb:
+        raise ValueError("Target unachievable: Foreground matches background, but target differs.")
+
+    # Calculate alpha for each channel
+    alphas = [
+        (t - b) / (c - b) if c != b else 1.0
+        for c, b, t in zip(color_rgb, background_rgb, target_rgb)
+    ]
+
+    # Check if all alpha values are within the valid range [0, 1]
+    if not all(0 <= alpha <= 1 for alpha in alphas):
+        raise ValueError("Target unachievable: Required alpha is outside the valid range [0, 1].")
+
+    # Check if the alpha values differ significantly
+    if max(alphas) - min(alphas) > alpha_tol:
+        raise ValueError(f"Target unachievable: Inconsistent alpha values {alphas}.")
+
+    # Use the average alpha
+    alpha_mean = sum(alphas) / len(alphas)
+
+    # Return the color with the calculated alpha
+    return rgba_to_hex(color_rgb + [alpha_mean])

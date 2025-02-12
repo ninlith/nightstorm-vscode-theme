@@ -4,7 +4,7 @@ import math
 import re
 from importlib.resources import files
 import nightstorm
-from nightstorm.color_manipulation import oklab_adjust
+from nightstorm.color_manipulation import oklab_adjust, deopacify
 
 # Create an Oklab rainbow palette.
 n = 15  # pylint: disable=invalid-name
@@ -129,7 +129,11 @@ def generate_theme_variant(accent_color, variant_name):
         "$fold_background$": dim(base_chromatic_palette[9]),
         "$breakpoint_foreground$": deepen(base_chromatic_palette[1]),
     })
-    color_map["$transparent_statusbar_foreground$"] = "#ffffff8c"
+    color_map["$transparent_statusbar_foreground$"] = deopacify(
+        color="#ffffff",
+        background=color_map["$sidebar_background$"],
+        target=color_map["$opaque_statusbar_foreground$"],
+    )
 
     # Replace.
     content = (files(nightstorm)/"template.json").read_text()
