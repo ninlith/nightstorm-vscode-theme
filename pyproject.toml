@@ -5,7 +5,7 @@ description = "A theme utilizing the Oklab color space."
 authors = [
     {name = "Okko Hartikainen", email = "okko.hartikainen@yandex.com"},
 ]
-dependencies = []
+dependencies = ["skia-python>=87.6", "shapely>=2.0.7"]
 requires-python = "==3.11.*"
 readme = "README.md"
 license = {text = "MIT"}
@@ -26,7 +26,13 @@ dev = [
 ]
 
 [tool.pdm.scripts]
-generate = "python -m nightstorm.generate"
+generate.composite = [
+    "python -m nightstorm.generate_themes",
+    "python -m nightstorm.generate_icon",
+]
 plot = "python -m nightstorm.plot"
 lint = "pylint src/ tests/"
 test = "pytest"
+
+[tool.pylint.MAIN]
+extension-pkg-allow-list = ["skia"]

@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
-from nightstorm.generate import base_chromatic_palette
+from nightstorm.generate_themes import base_chromatic_palette
 
 hue_names = [
     "red",
