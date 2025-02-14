@@ -17,12 +17,12 @@ colors = []
 
 # Background circles.
 shapes.append(Point(canvas_center).buffer(canvas_size//2))
-colors.append(skia.ColorSetARGB(0x40, 0x80, 0x80, 0x80))
-shapes.append(Point(canvas_center).buffer(canvas_size//2 - spacing))
+colors.append(skia.ColorSetARGB(0x60, 0x80, 0x80, 0x80))
+shapes.append(Point(canvas_center).buffer(canvas_size//2 - spacing + spacing//2))
 colors.append(skia.ColorSetRGB(0x20, 0x20, 0x20))
 
 # Grid of squares intersected with a circle.
-circle = Point(canvas_center).buffer(canvas_size//2 - 2*spacing)
+circle = Point(canvas_center).buffer(canvas_size//2 - 2*spacing + spacing//2)
 for row in range(grid_size):
     for column in range(grid_size):
         x = spacing + column*(square_size + spacing)
