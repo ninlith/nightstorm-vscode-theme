@@ -1,8 +1,10 @@
 """Theme generation."""
 
+import argparse
 import math
 import re
 from importlib.resources import files
+from pathlib import Path
 import nightstorm
 from nightstorm.color_manipulation import oklab_adjust, deopacify
 
@@ -12,7 +14,7 @@ ts = [float(x)/(n) for x in range(n)]  # np.linspace(0, 1, n)
 base_chromatic_palette = [oklab_adjust("#cc8080", hue_addend=t*2*math.pi) for t in ts]
 
 
-def generate_theme_variant(accent_color, variant_name):
+def generate_theme_variant(accent_color, variant_name, output_dir):
     """Generate a theme variant with the given accent color index."""
 
     def deepen(hex_color):
@@ -142,13 +144,23 @@ def generate_theme_variant(accent_color, variant_name):
     content = pattern.sub(lambda match: translation_map[match.group(0)], content)
 
     # Save.
-    output_dir = files(nightstorm).parent.parent/"themes"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir/f"Nightstorm-{variant_name}.json").write_text(content)
+    (output_dir/f"Nightstorm-{variant_name}.json").write_text(content, newline="\n")
 
 
 def main():
     """Main function."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "output_dir",
+        nargs="?",
+        default=Path.cwd()/"themes",
+        type=Path,
+        help="output directory (default: %(default)s)",
+    )
+    args = parser.parse_args()
+    output_dir = args.output_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
+
     variants = (
         ("orange", 2),
         ("turquoise", 7),
@@ -157,7 +169,7 @@ def main():
         ("magenta", 13),
     )
     for variant_name, accent_color in variants:
-        generate_theme_variant(accent_color, variant_name)
+        generate_theme_variant(accent_color, variant_name, output_dir)
 
 
 if __name__ == "__main__":

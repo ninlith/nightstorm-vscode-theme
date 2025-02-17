@@ -1,10 +1,22 @@
 """Icon generation."""
 
-from importlib.resources import files
+import argparse
+from pathlib import Path
 import skia
 from shapely.geometry import box, Point
-import nightstorm
 from nightstorm.generate_themes import base_chromatic_palette
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "output_dir",
+    nargs="?",
+    default=Path.cwd()/"images",
+    type=Path,
+    help="output directory (default: %(default)s)",
+)
+args = parser.parse_args()
+output_dir = args.output_dir
+output_dir.mkdir(parents=True, exist_ok=True)
 
 grid_size = 4  # pylint: disable=invalid-name
 square_size = 49  # pylint: disable=invalid-name
@@ -59,9 +71,6 @@ for shape, color in zip(shapes, colors):
     )
     canvas.drawPath(path, paint)
 picture = recorder.finishRecordingAsPicture()
-
-output_dir = files(nightstorm).parent.parent/"images"
-output_dir.mkdir(parents=True, exist_ok=True)
 
 # Save as SVG.
 stream = skia.FILEWStream(str(output_dir/"icon.svg"))
