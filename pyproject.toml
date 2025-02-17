@@ -33,6 +33,12 @@ generate.composite = [
 plot = "python -m nightstorm.plot"
 lint = "pylint src/ tests/"
 test = "pytest"
+terminal_colors = """python3 -c '
+print("\\n".join(
+    "".join(f"\\033[{x}m   \\033[0m" for x in range(*r))
+    for r in [(40, 48), (100, 108)]
+))
+'"""
 
 [tool.pylint.MAIN]
 extension-pkg-allow-list = ["skia"]
