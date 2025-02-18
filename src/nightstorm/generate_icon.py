@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 import skia
-from shapely.geometry import box, Point
+from shapely.geometry import box, Point, LineString
 from nightstorm.generate_themes import base_chromatic_palette
 
 parser = argparse.ArgumentParser()
@@ -52,22 +52,34 @@ colors.extend(
     for x in [base_chromatic_palette[o] for o in order]
 )
 
+# Rain lines.
+rain_lines = []
+for i in range(-canvas_size, canvas_size, canvas_size//20):
+    line = LineString([(i + canvas_size, 0), (i, canvas_size)])
+    clipped_line = line.intersection(circle.buffer(5))
+    if not clipped_line.is_empty:
+        rain_lines.append(clipped_line)
+shapes.extend(rain_lines)
+colors.extend([skia.ColorSetARGB(0x40, 0x20, 0x20, 0x20)]*len(rain_lines))
+
 # Draw.
 recorder = skia.PictureRecorder()  # for saving to multiple formats
 canvas = recorder.beginRecording(canvas_size, canvas_size)
 for shape, color in zip(shapes, colors):
     # Convert Shapely shape to Skia path.
     path = skia.Path()
-    for i, (x, y) in enumerate(shape.exterior.coords):
+    is_region = not isinstance(shape, LineString)
+    for i, (x, y) in enumerate(shape.exterior.coords if is_region else shape.coords):
         (path.moveTo if i == 0 else path.lineTo)(x, y)
     path.close()
 
-    # Draw the path with rounded corners.
+    # Draw the path (with rounded corners).
     paint = skia.Paint(
         AntiAlias=True,
         Color=color,
-        Style=skia.Paint.kFill_Style,
-        PathEffect=skia.CornerPathEffect.Make(radius=10),
+        Style=skia.Paint.kFill_Style if is_region else skia.Paint.kStroke_Style,
+        PathEffect=skia.CornerPathEffect.Make(radius=10) if is_region else None,
+        StrokeWidth=0 if is_region else 1.5,
     )
     canvas.drawPath(path, paint)
 picture = recorder.finishRecordingAsPicture()
